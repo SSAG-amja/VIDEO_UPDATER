@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+venv/
+.git/
+downloads/  # 덤프 파일 다운로드 임시 폴더 (컨테이너 실행 시 생성되도록)

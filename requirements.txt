@@ -1,0 +1,20 @@
+# DB 연결 및 ORM
+SQLAlchemy==2.0.*
+psycopg2==2.9.*
+asyncpg==0.29.*
+
+# 환경변수 로드
+python-dotenv==1.0.*
+
+# 비동기 API 호출 (TMDB 장르, OTT 등 실시간 갱신용)
+aiohttp==3.9.*
+APScheduler==3.10.*
+
+# 대용량 데이터 처리 및 비교 연산용
+pandas==2.2.*
+
+# 1GB 이상 대용량 JSON 스트리밍 파싱 (메모리 부족 방지용)
+ijson==3.2.*
+
+# (선택) 로깅 및 진행률 표시용
+tqdm==4.66.*

@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    container_name: VIDEO_UPDATER_DB
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USER:-gookbob}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-gookbob}
+      POSTGRES_DB: ${DB_NAME:-ssag_algo}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_updater:/var/lib/postgresql/data
+
+  video_updater:
+    build: .
+    container_name: VIDEO_UPDATER_CONT
+    restart: always
+    # 포트를 8003으로 변경하여 실행 (메인 백엔드와 충돌 방지)
+    command: python main.py
+    volumes:
+      - .:/app
+    ports:
+      - "8003:8003" # 외부 포트 8003으로 작업 진행
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      - TMDB_API_KEY=${TMDB_API_KEY}
+      - SCHEDULER_TIMEZONE=${SCHEDULER_TIMEZONE:-Asia/Seoul}
+      - SCHEDULER_HOUR=${SCHEDULER_HOUR:-4}
+      - SCHEDULER_MINUTE=${SCHEDULER_MINUTE:-0}
+      - RUN_ON_STARTUP=${RUN_ON_STARTUP:-false}
+    depends_on:
+      - db
+
+volumes:
+  postgres_data_updater:
